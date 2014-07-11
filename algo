@@ -1,0 +1,36 @@
+ALGO
+
+/*
+** Tout ce qui est precede d'une fleche '=>' est suivi d'une question concernant
+** le projet.
+** Tout ce qui est en commentaire comme en C (aka '/* */') correspond a des
+** reponses potentielles a ces questions.
+*/
+
+Initialiser des points (neurones ?) en random sur une matrice/une
+image de la taille de l'image en entree.
+
+=> Combien de points ?
+
+Pour chaque pixel de l'image en entree, calculer la distance minimale
+de ce pixel aux points/neurones de la matrice/de l'image.
+
+i-e: Soit 'N' l'ensemble des neurones
+     Soit 'P' l'ensemble des pixels en entree
+     Soit 'd' la distance minimale recherchee
+     Soit 'dist' une fonction calculant la distance entre deux points
+     sur un espace a n dimensions
+
+     d(p) = min{ dist(n, p) pour tout p appartenant a P}
+
+Pour notre projet, la fonction 'dist' doit calculer la distance entre deux
+points dans un espace a trois dimensions (|R^3 quoi).
+
+=> A quoi correspondent les x, y et z d'un pixel ?
+
+/* Aux valeurs RGB (Red, Green, Blue) du pixel */
+/* A une autre representation type YUV */
+
+=> Quel critere utiliser pour calculer la distance ?
+
+/* MARWAN: teinte, luminosite */
