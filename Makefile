@@ -4,7 +4,7 @@
 # Compilers and libs
  
 # Adding /usr/local/include for FreeBSD
-CPPFLAGS= -I/usr/local/include
+CPPFLAGS= -I/usr/local/include/ImageMagick
 
 CXX=g++ -pthread
 CXXFLAGS= -Wall -Wextra -std=c++11 # Debug flags -O0 -g
@@ -18,9 +18,10 @@ DEP=$(SRC:.cc=.d)
 
 # Adding /usr/local/lib for FreeBSD
 LDFLAGS= -L/usr/local/lib
- 
+# Addiing pkg-config for gtk+
+
 # libs flags
-LDLIBS= -lrt -ltbb -lglut -lGL
+LDLIBS= -lrt -ltbb
 
 OBJ=$(SRC:.cc=.o)
 
@@ -30,7 +31,7 @@ TARGET=prpa
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+	$(CXX) `Magick++-config --cppflags --cxxflags --ldflags --libs` -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 # Clean your dir
 clean:
