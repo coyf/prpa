@@ -44,7 +44,7 @@ namespace Geometry
         {
             for (int z = 0; z < height_; ++z)
             {
-                int dist_tmp = p.dist(this->neuron_matrix[i][z]);
+                int dist_tmp = p.dist(this->neuron_matrix_[i][z]);
                 if (dist_tmp < min_dist)
                 {
                     min_point = this->neuron_matrix_[i][z];
