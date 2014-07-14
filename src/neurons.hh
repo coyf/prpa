@@ -2,20 +2,21 @@
 # define NEURONS_HH
 
 # include "Point3D.hh"
-# include <list>
+# include <vector>
+# include <stdlib.h>
+
 namespace Geometry
 {
     class Neurons
     {
         public:
-            Neurons(std::list<Point3D> l);
-            Neurons();
+            Neurons(std::vector<std::vector<Point3D>> m);
+            Neurons(int width, int height);
             ~Neurons();
 
-            std::list<Point3D> getNeurons() const;
-            void addNeuron(Point3D p);
+            std::vector<std::vector<Point3D>> getNeurons() const;
         private:
-            std::list<Point3D> neuron_list_;
+            std::vector<std::vector<Point3D>> neuron_matrix_;
     };
 }
 
