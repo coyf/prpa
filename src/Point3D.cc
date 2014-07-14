@@ -53,6 +53,6 @@ namespace Geometry
     double dy = pt.y_ - y_;
     double dz = pt.z_ - z_;
 
-    return dx * dx + dy * dy + dz * dz;
+    return sqrt(dx * dx + dy * dy + dz * dz);
   }
 }

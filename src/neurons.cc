@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "neurons.hh"
 
 namespace Geometry
@@ -45,7 +46,7 @@ namespace Geometry
         {
             for (int z = 0; z < height_; ++z)
             {
-                int dist_tmp = p.dist(this->neuron_matrix_[i][z]);
+                double dist_tmp = p.dist(this->neuron_matrix_[i][z]);
                 if (dist_tmp < min_dist)
                 {
                     nearest_point = this->neuron_matrix_[i][z];
@@ -56,9 +57,29 @@ namespace Geometry
         return nearest_point;
     }
 
+  void Neurons::update(Point3D pt, int iter)
+  {
+    double radius = getRadius(iter);
+
+        for (int i = 0; i < width_; ++i)
+        {
+            for (int z = 0; z < height_; ++z)
+            {
+              // Checks if point of the matrix is in the neighbourhood
+              // of the neuron
+              double dist_tmp = pt.dist(this->neuron_matrix_[i][z]);
+              //std::cout << "dist " << dist_tmp << " radius: " << radius << std::endl;
+              if (dist_tmp * 255 < radius)
+                {
+                  this->neuron_matrix_[i][z] = Point3D(0, 1, 1);
+                }
+            }
+        }
+  }
+
   // Get the radius needed to determine the neighbourhood of a neuron
   // 'i' represents the number of the current iteration 1,2,3 ...
-  float Neurons::getRadius(int i)
+  double Neurons::getRadius(int i)
   {
     return exp(-(i/50));
   }

@@ -15,13 +15,14 @@ namespace Geometry
             ~Neurons();
 
             Point3D nearest(Point3D p);
+            void update(Point3D pt, int iter);
             std::vector<std::vector<Point3D>> getNeurons() const;
         private:
             std::vector<std::vector<Point3D>> neuron_matrix_;
             int width_;
             int height_;
 
-      float getRadius(int i);
+      double getRadius(int i);
     };
 }
 
