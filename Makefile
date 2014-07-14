@@ -11,7 +11,8 @@ CXXFLAGS= -Wall -Wextra -std=c++11 # Debug flags -O0 -g
 
 SDIR=src
 # Source files
-BSRC=main.cc
+BSRC=main.cc \
+	Point3D.cc
 SRC=$(addprefix ${SDIR}/, $(BSRC))
 
 DEP=$(SRC:.cc=.d)
