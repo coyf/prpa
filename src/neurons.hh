@@ -16,6 +16,7 @@ namespace Geometry
 
             Point3D nearest(Point3D p);
             void update(Point3D pt, int iter);
+            Point3D change_color(Point3D point, Point3D ref, double coef);
             std::vector<std::vector<Point3D>> getNeurons() const;
         private:
             std::vector<std::vector<Point3D>> neuron_matrix_;

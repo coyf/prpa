@@ -38,7 +38,7 @@ namespace Geometry
 
     Point3D Neurons::nearest(Point3D p)
     {
-        int min_dist = 1000000;
+        double min_dist = 1000000;
         int x = 0;
         int y = 0;
 
@@ -59,31 +59,58 @@ namespace Geometry
         return Point3D(x, y, 0);
     }
 
-  void Neurons::update(Point3D pt, int iter)
-  {
-    double radius = getRadius(iter);
+    Point3D Neurons::change_color(Point3D point, Point3D ref, double coef)
+    {
+        double r;
+        double g;
+        double b;
+
+        if (abs(point.getX() - ref.getX()) < coef)
+            r = ref.getX();
+        else
+            r = point.getX() < ref.getX() ? point.getX() + coef :
+                point.getX() - coef;
+
+        if (abs(point.getY() - ref.getY()) < coef)
+            g = ref.getY();
+        else
+            g = point.getY() < ref.getY() ? point.getY() + coef :
+                point.getY() - coef;
+
+        if (abs(point.getZ() - ref.getZ()) < coef)
+            b = ref.getZ();
+        else
+            b = point.getZ() < ref.getZ() ? point.getZ() + coef :
+                point.getZ() - coef;
+
+        return Point3D(r, g, b);
+    }
+
+    void Neurons::update(Point3D pt, int iter)
+    {
+        double radius = getRadius(iter);
 
         for (int i = 0; i < width_; ++i)
         {
             for (int z = 0; z < height_; ++z)
             {
-              // Checks if point of the matrix is in the neighbourhood
-              // of the neuron
-              double dist_tmp = pt.dist(Point3D(i, z, 0));
-              //std::cout << "dist " << dist_tmp << " radius: " << radius << std::endl;
-              if (dist_tmp < 5)
+                // Checks if point of the matrix is in the neighbourhood
+                // of the neuron
+                double dist_tmp = pt.dist(Point3D(i, z, 0));
+                //std::cout << "dist " << dist_tmp << " radius: " << radius << std::endl;
+                if (dist_tmp < 5)
                 {
-                  this->neuron_matrix_[i][z] = Point3D(0, 1, 1);
+                    this->neuron_matrix_[i][z] = Point3D(0, 1, 1);
                 }
             }
         }
-  }
+    }
 
-  // Get the radius needed to determine the neighbourhood of a neuron
-  // 'i' represents the number of the current iteration 1,2,3 ...
-  double Neurons::getRadius(int i)
-  {
-    return exp(-(i/5));
-  }
+    // Get the radius needed to determine the neighbourhood of a neuron
+    // 'i' represents the number of the current iteration 1,2,3 ...
+    double Neurons::getRadius(int i)
+    {
+        return exp(-(i/5));
+    }
 
 }
