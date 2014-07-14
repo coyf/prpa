@@ -15,7 +15,7 @@ std::string get_file_ext(std::string filename)
   return ext;
 }
 
-int loop_pixels(char *av[])
+int loop_pixels(char *av[], int iter)
 {
     InitializeMagick(*av);
 
@@ -25,7 +25,7 @@ int loop_pixels(char *av[])
     Image image;
     try {
       // Read a file into image object
-      image.read(av[2]);
+      image.read(av[3]);
 
       // Get image total rows and columns
       ssize_t cols = image.baseColumns();
@@ -82,11 +82,12 @@ int loop_pixels(char *av[])
 int check_args(int ac, char* av[])
 {
   // check number of args
-  if (ac != 3)
+  if (ac != 4)
     return 2;
 
   // check mode
   std::string mode = av[1];
+  std::string iter = av[2];
   if (mode.size() == 10
       && mode.compare(0, 7, "--mode=") == 0)
   {
@@ -95,6 +96,11 @@ int check_args(int ac, char* av[])
       return 0;
     else
       return 1;
+  }
+  else if (iter.size() == 10
+           && iter.compare(0, 7, "--iter=") == 0)
+  {
+    return 0;
   }
   else
     return 2;
@@ -108,15 +114,23 @@ int main(int argc, char* argv[])
   if (ca != 0)
   {
     if (ca == 2)
-      std::cout << "usage: ./prpa --mode=<seq|par> <image's path>" << std::endl;
+      std::cout 
+        << "usage: ./prpa --mode=<seq|par> --iter=<number> <image's path>"
+        << std::endl;
     else if (ca == 1)
       std::cout << "unknow mode" << std::endl;
     return 2;
   }
 
   double ellapsed_time;
+  int iter_val;
+  std::string arg2(argv[2]);
+  std::string iter(arg2.substr(7, arg2.length() - 7));
+  iter_val = atoi(iter.c_str());
+  std::cout << "iter val: " << iter_val << std::endl;
+
   { timer t(ellapsed_time);
-    res = loop_pixels(argv);
+    res = loop_pixels(argv, iter_val);
   }
 
   std::cout << "Ellapsed time: " << ellapsed_time << std::endl;
