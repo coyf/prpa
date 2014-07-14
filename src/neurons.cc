@@ -59,58 +59,55 @@ namespace Geometry
         return Point3D(x, y, 0);
     }
 
-    Point3D Neurons::change_color(Point3D point, Point3D ref, double coef)
+    Point3D Neurons::change_color(Point3D point, Point3D ref, double dist_radius)
     {
         double r;
         double g;
         double b;
 
-        if (abs(point.getX() - ref.getX()) < coef)
-            r = ref.getX();
-        else
-            r = point.getX() < ref.getX() ? point.getX() + coef :
-                point.getX() - coef;
+        if (dist_radius == 0)
+            dist_radius = 1;
 
-        if (abs(point.getY() - ref.getY()) < coef)
-            g = ref.getY();
-        else
-            g = point.getY() < ref.getY() ? point.getY() + coef :
-                point.getY() - coef;
-
-        if (abs(point.getZ() - ref.getZ()) < coef)
-            b = ref.getZ();
-        else
-            b = point.getZ() < ref.getZ() ? point.getZ() + coef :
-                point.getZ() - coef;
-
-        return Point3D(r, g, b);
+        double r_offset = (ref.getX() - point.getX()) / dist_radius;
+        double g_offset = (ref.getY() - point.getY()) / dist_radius;
+        double b_offset = (ref.getZ() - point.getZ()) / dist_radius;
+        
+        r = point.getX() + r_offset;
+        g = point.getY() + g_offset;
+        b = point.getZ() + b_offset;
+/*
+        std::cout << "ref " << ref.getX() << " " << ref.getY() << " " << ref.getZ() << std::endl;
+        std::cout << "point " << point.getX() << " " << point.getY() << " " 
+            << point.getZ() << std::endl;
+        std::cout << "r " << r << " g " << g << " b " << b << std::endl << std::endl;
+  */      return Point3D(r, g, b);
     }
 
-  void Neurons::update(Point3D pt, int iter)
-  {
-    double radius = getRadius((double) iter);
+    void Neurons::update(Point3D ref, Point3D bmu, int iter)
+    {
+        double radius = getRadius((double) iter);
 
         for (int i = 0; i < width_; ++i)
         {
             for (int z = 0; z < height_; ++z)
             {
-              // Checks if point of the matrix is in the neighbourhood
-              // of the neuron
-              double dist_tmp = pt.dist(Point3D(i, z, 0));
-              //std::cout << "dist " << dist_tmp << " radius: " << radius << std::endl;
-              if (dist_tmp < radius)
+                // Checks if point of the matrix is in the neighbourhood
+                // of the neuron
+                double dist_tmp = bmu.dist(Point3D(i, z, 0));
+                if (dist_tmp < radius)
                 {
-                    this->neuron_matrix_[i][z] = Point3D(0, 1, 1);
+                    this->neuron_matrix_[i][z] =
+                                     change_color(neuron_matrix_[i][z], ref, dist_tmp);
                 }
             }
         }
     }
 
-  // Get the radius needed to determine the neighbourhood of a neuron
-  // 'i' represents the number of the current iteration 1,2,3 ...
-  double Neurons::getRadius(double i)
-  {
-    return sqrt(i*10);
-  }
+    // Get the radius needed to determine the neighbourhood of a neuron
+    // 'i' represents the number of the current iteration 1,2,3 ...
+    double Neurons::getRadius(double i)
+    {
+        return 10;//sqrt(i*10);
+    }
 
 }

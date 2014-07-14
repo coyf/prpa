@@ -51,7 +51,7 @@ int loop_pixels(char *av[], int iter)
           // Convert the pixel to Point3D.
           Geometry::Point3D rand_pt(rc.red(), rc.green(), rc.blue());
 
-          ns.update(ns.nearest(rand_pt), i);
+          ns.update(rand_pt, ns.nearest(rand_pt), i);
         }
 
       std::vector<std::vector<Geometry::Point3D>> result = ns.getNeurons();
