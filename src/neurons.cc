@@ -59,28 +59,22 @@ namespace Geometry
         return Point3D(x, y, 0);
     }
 
-    Point3D Neurons::change_color(Point3D point, Point3D ref, double dist_radius)
+    Point3D Neurons::change_color(Point3D point,
+                                  Point3D ref,
+                                  double dist_radius)
     {
-        double r;
-        double g;
-        double b;
-
         if (dist_radius == 0)
             dist_radius = 1;
 
         double r_offset = (ref.getX() - point.getX()) / dist_radius;
         double g_offset = (ref.getY() - point.getY()) / dist_radius;
         double b_offset = (ref.getZ() - point.getZ()) / dist_radius;
-        
-        r = point.getX() + r_offset;
-        g = point.getY() + g_offset;
-        b = point.getZ() + b_offset;
-/*
-        std::cout << "ref " << ref.getX() << " " << ref.getY() << " " << ref.getZ() << std::endl;
-        std::cout << "point " << point.getX() << " " << point.getY() << " " 
-            << point.getZ() << std::endl;
-        std::cout << "r " << r << " g " << g << " b " << b << std::endl << std::endl;
-  */      return Point3D(r, g, b);
+
+        double r = point.getX() + r_offset;
+        double g = point.getY() + g_offset;
+        double b = point.getZ() + b_offset;
+
+        return Point3D(r, g, b);
     }
 
     void Neurons::update(Point3D ref, Point3D bmu, int iter)
@@ -97,7 +91,7 @@ namespace Geometry
                 if (dist_tmp < radius)
                 {
                     this->neuron_matrix_[i][z] =
-                                     change_color(neuron_matrix_[i][z], ref, dist_tmp);
+                      change_color(neuron_matrix_[i][z], ref, dist_tmp);
                 }
             }
         }
