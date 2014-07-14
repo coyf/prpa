@@ -11,7 +11,9 @@ CXXFLAGS= -Wall -Wextra -std=c++11 # Debug flags -O0 -g
 
 SDIR=src
 # Source files
-BSRC=main.cc neuron.cc
+BSRC=main.cc \
+	Point3D.cc \
+	neurons.cc
 SRC=$(addprefix ${SDIR}/, $(BSRC))
 
 DEP=$(SRC:.cc=.d)
