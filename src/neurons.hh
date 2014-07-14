@@ -5,14 +5,15 @@
 # include <list>
 namespace Geometry
 {
-    class Neuron
+    class Neurons
     {
         public:
-            Neuron(std::list<Point3D>);
-            Neuron();
-            ~Neuron();
+            Neurons(std::list<Point3D> l);
+            Neurons();
+            ~Neurons();
 
             std::list<Point3D> getNeurons() const;
+            void addNeuron(Point3D p);
         private:
             std::list<Point3D> neuron_list_;
     };

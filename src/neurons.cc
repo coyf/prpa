@@ -2,21 +2,26 @@
 
 namespace Geometry
 {
-    Neuron::Neuron(std::list<Point3D> l)
+    Neurons::Neurons(std::list<Point3D> l)
     {
         neuron_list_ = l;
     }
 
-    Neuron::Neuron()
+    Neurons::Neurons()
     {
     }
 
-    Neuron::~Neuron()
+    Neurons::~Neurons()
     {
     }
 
-    std::list<Point3D> Neuron::getNeurons() const
+    std::list<Point3D> Neurons::getNeurons() const
     {
         return neuron_list_;
+    }
+
+    void Neurons::addNeuron(Point3D p)
+    {
+        neuron_list_.push_front(p);
     }
 }
