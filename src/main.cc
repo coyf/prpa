@@ -42,11 +42,11 @@ int loop_pixels(char *av[], int iter)
       // Init neuron's map.
       Geometry::Neurons ns(cols, rows);
 
+      srand(time(0));
       for (int i = 0; i < iter; ++i)
         {
           // Update neuron map.
           // Randomly select a pixel.
-          ColorRGB rc(image.pixelColor(rand() % cols, rand() % rows));
           // Convert the pixel to Point3D.
           Geometry::Point3D rand_pt(rc.red(), rc.green(), rc.blue());
 
