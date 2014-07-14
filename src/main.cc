@@ -41,6 +41,14 @@ int loop_pixels(char *av[])
 
       // Init neuron's map.
       Geometry::Neurons ns(cols, rows);
+
+      // Update neuron map.
+      // Randomly select a pixel.
+      ColorRGB rc(image.pixelColor(rand() % cols, rand() % rows));
+      // Convert the pixel to Point3D.
+      Geometry::Point3D rand_pt(rc.red(), rc.green(), rc.blue());
+      // TODO: Call algorithm
+
       std::vector<std::vector<Geometry::Point3D>> result = ns.getNeurons();
       // Build the image from Neurons.
       for (ssize_t row = 0; row < rows; ++row)
