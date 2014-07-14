@@ -16,6 +16,8 @@ namespace Geometry
     void setX(int x);
     void setY(int y);
     void setZ(int z);
+
+    int dist(Point3D pt);
   private:
     int x_;
     int y_;
