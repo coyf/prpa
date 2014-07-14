@@ -49,7 +49,6 @@ int loop_pixels(char *av[], int iter)
           ColorRGB rc(image.pixelColor(rand() % cols, rand() % rows));
           // Convert the pixel to Point3D.
           Geometry::Point3D rand_pt(rc.red(), rc.green(), rc.blue());
-          // TODO: Call algorithm
 
           ns.update(ns.nearest(rand_pt), i);
         }
