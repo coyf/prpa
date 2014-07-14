@@ -3,7 +3,7 @@
 
 namespace Geometry
 {
-  Point3D::Point3D(int x, int y, int z)
+  Point3D::Point3D(double x, double y, double z)
     : x_(x),
       y_(y),
       z_(z)
