@@ -15,6 +15,13 @@ std::string get_file_ext(std::string filename)
   return ext;
 }
 
+ColorRGB point3d_to_color(Geometry::Point3D pix)
+{
+  ColorRGB ret(pix.getX(), pix.getY(), pix.getZ());
+
+  return ret;
+}
+
 int loop_pixels(char *av[])
 {
     InitializeMagick(*av);
@@ -40,13 +47,13 @@ int loop_pixels(char *av[])
       // Send random pixel from the pixels tab.
 
       // Init neuron's map.
-      Neurons ns(cols, rows);
-      std::vector<std::vector<Point3D>> result = ns.getNeurons();
+      Geometry::Neurons ns(cols, rows);
+      std::vector<std::vector<Geometry::Point3D>> result = ns.getNeurons();
       // Build the image from Neurons.
       for (ssize_t row = 0; row < rows; ++row)
-        for (ssize_t column = 0; column < columns; ++column)
+        for (ssize_t column = 0; column < cols; ++column)
         {
-          *pixels++ = result[row][column];
+          *pixels++ = point3d_to_color(result[row][column]);
         }
       // Set outuput name.
       std::string fn(image.baseFilename());
