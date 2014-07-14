@@ -34,9 +34,9 @@ namespace Geometry
         return neuron_matrix_;
     }
 
-    void Neurons::update(Point3D p)
+    Point3D Neurons::nearest(Point3D p)
     {
-        Point3D min_point = this->neuron_matrix_[0][0];
+        Point3D nearest_point = this->neuron_matrix_[0][0];
         int min_dist = 1000000;
 
         /* Loop to find the nearest neuron of the given point */
@@ -47,10 +47,11 @@ namespace Geometry
                 int dist_tmp = p.dist(this->neuron_matrix_[i][z]);
                 if (dist_tmp < min_dist)
                 {
-                    min_point = this->neuron_matrix_[i][z];
+                    nearest_point = this->neuron_matrix_[i][z];
                     min_dist = dist_tmp;
                 }
             }
         }
+        return nearest_point;
     }
 }
