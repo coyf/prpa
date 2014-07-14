@@ -6,7 +6,7 @@ namespace Geometry
   class Point3D
   {
   public:
-    Point3D(int x, int y, int z);
+    Point3D(double x, double y, double z);
     ~Point3D();
 
     double getX() const;
