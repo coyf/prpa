@@ -1,3 +1,4 @@
+#include <cmath>
 #include "neurons.hh"
 
 namespace Geometry
@@ -54,4 +55,12 @@ namespace Geometry
         }
         return nearest_point;
     }
+
+  // Get the radius needed to determine the neighbourhood of a neuron
+  // 'i' represents the number of the current iteration 1,2,3 ...
+  float Neurons::getRadius(int i)
+  {
+    return exp(-(i/50));
+  }
+
 }

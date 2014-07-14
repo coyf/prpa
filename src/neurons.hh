@@ -20,6 +20,8 @@ namespace Geometry
             std::vector<std::vector<Point3D>> neuron_matrix_;
             int width_;
             int height_;
+
+      float getRadius(int i);
     };
 }
 
