@@ -15,44 +15,44 @@ namespace Geometry
   }
 
   // Getters
-  int Point3D::getX() const
+  double Point3D::getX() const
   {
     return x_;
   }
 
-  int Point3D::getY() const
+  double Point3D::getY() const
   {
     return y_;
   }
 
-  int Point3D::getZ() const
+  double Point3D::getZ() const
   {
     return z_;
   }
 
   // Setters
-  void Point3D::setX(int x)
+  void Point3D::setX(double x)
   {
     x_ = x;
   }
 
-  void Point3D::setY(int y)
+  void Point3D::setY(double y)
   {
     y_ = y;
   }
 
-  void Point3D::setZ(int z)
+  void Point3D::setZ(double z)
   {
     z_ = z;
   }
 
   // Dist
-  int Point3D::dist(Point3D pt)
+  double Point3D::dist(Point3D pt)
   {
-    int dx = pt.x_ - x_;
-    int dy = pt.y_ - y_;
-    int dz = pt.z_ - z_;
+    double dx = pt.x_ - x_;
+    double dy = pt.y_ - y_;
+    double dz = pt.z_ - z_;
 
-    return sqrt(dx * dx + dy * dy + dz * dz);
+    return dx * dx + dy * dy + dz * dz;
   }
 }
