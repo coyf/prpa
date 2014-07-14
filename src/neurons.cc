@@ -16,9 +16,9 @@ namespace Geometry
             std::vector<Point3D> row;
             for (int z = 0; z < height; ++z)
             {
-                float r = (rand() % 1000) / 1000;
-                float g = (rand() % 1000) / 1000;
-                float b = (rand() % 1000) / 1000;
+                double r = (double) rand() / RAND_MAX;
+                double g = (double) rand() / RAND_MAX;
+                double b = (double) rand() / RAND_MAX;
                 row.push_back(Point3D(r, g, b));
             }
             neuron_matrix_.push_back(row);

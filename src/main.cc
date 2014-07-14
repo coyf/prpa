@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include "timer.hh"
+#include "Point3D.hh"
+#include "neurons.hh"
 #include <Magick++.h>
 
 using namespace Magick;
@@ -13,18 +15,11 @@ std::string get_file_ext(std::string filename)
   return ext;
 }
 
-void color_to_3dpixel(ColorRGB col)
+ColorRGB point3d_to_color(Geometry::Point3D pix)
 {
-  double r;
-  double g;
-  double b;
+  ColorRGB ret(pix.getX(), pix.getY(), pix.getZ());
 
-  r = col.red();
-  g = col.green();
-  b = col.blue();
-
-  std::cout << "red: [ " << r << " ] green: [ " << g << " ] blue: [ "
-            << b << "]" << std::endl;
+  return ret;
 }
 
 int loop_pixels(char *av[])
@@ -49,22 +44,26 @@ int loop_pixels(char *av[])
 
       // Get all of the image pixels
       PixelPacket *pixels = view.get(0, 0, cols, rows);
-      // Test: set all pixels in green.
-      for ( ssize_t row = 0; row < rows ; ++row ) 
-        for ( ssize_t column = 0; column < cols ; ++column )
+      // Send random pixel from the pixels tab.
+
+      // Init neuron's map.
+      Geometry::Neurons ns(cols, rows);
+      std::vector<std::vector<Geometry::Point3D>> result = ns.getNeurons();
+      // Build the image from Neurons.
+      for (ssize_t row = 0; row < rows; ++row)
+        for (ssize_t column = 0; column < cols; ++column)
         {
-          // Convert the Color to our 3dPixel class
-          ColorRGB colrgb(*pixels++);
-          color_to_3dpixel(colrgb);
+          *pixels++ = point3d_to_color(result[row][column]);
         }
-      // Test end.
-      // Write the image to a file
+      // Set outuput name.
       std::string fn(image.baseFilename());
       unsigned fd = fn.find_last_of(".");
       std::string out(fn.substr(0, fd));
       out.append("-output");
       out.append(get_file_ext(fn));
       std::cout << "output: " << out << std::endl;
+
+      // Write image.
       image.write(out);
     } 
     catch( Exception &error_)
