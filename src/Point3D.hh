@@ -9,19 +9,19 @@ namespace Geometry
     Point3D(int x, int y, int z);
     ~Point3D();
 
-    int getX() const;
-    int getY() const;
-    int getZ() const;
+    double getX() const;
+    double getY() const;
+    double getZ() const;
 
-    void setX(int x);
-    void setY(int y);
-    void setZ(int z);
+    void setX(double x);
+    void setY(double y);
+    void setZ(double z);
 
-    int dist(Point3D pt);
+    double dist(Point3D pt);
   private:
-    int x_;
-    int y_;
-    int z_;
+    double x_;
+    double y_;
+    double z_;
   };
 }
 
