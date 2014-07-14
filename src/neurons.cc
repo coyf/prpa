@@ -38,7 +38,7 @@ namespace Geometry
 
     Point3D Neurons::nearest(Point3D p)
     {
-        int min_dist = 1000000;
+        double min_dist = 1000000;
         int x = 0;
         int y = 0;
 
@@ -61,7 +61,7 @@ namespace Geometry
 
   void Neurons::update(Point3D pt, int iter)
   {
-    double radius = getRadius(iter);
+    double radius = getRadius((double) iter);
 
         for (int i = 0; i < width_; ++i)
         {
@@ -71,7 +71,7 @@ namespace Geometry
               // of the neuron
               double dist_tmp = pt.dist(Point3D(i, z, 0));
               //std::cout << "dist " << dist_tmp << " radius: " << radius << std::endl;
-              if (dist_tmp < 5)
+              if (dist_tmp < radius)
                 {
                   this->neuron_matrix_[i][z] = Point3D(0, 1, 1);
                 }
@@ -81,9 +81,9 @@ namespace Geometry
 
   // Get the radius needed to determine the neighbourhood of a neuron
   // 'i' represents the number of the current iteration 1,2,3 ...
-  double Neurons::getRadius(int i)
+  double Neurons::getRadius(double i)
   {
-    return exp(-(i/5));
+    return sqrt(i*10);
   }
 
 }
