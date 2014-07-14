@@ -14,9 +14,12 @@ namespace Geometry
             Neurons(int width, int height);
             ~Neurons();
 
+            void update(Point3D p);
             std::vector<std::vector<Point3D>> getNeurons() const;
         private:
             std::vector<std::vector<Point3D>> neuron_matrix_;
+            int width_;
+            int height_;
     };
 }
 
