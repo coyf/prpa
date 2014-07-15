@@ -19,9 +19,9 @@ int loop_pixels(char *av[], int iter, int mode)
 {
     InitializeMagick(*av);
 
-    // Construct the image object. Seperating image construction from the 
-    // the read operation ensures that a failure to read the image file 
-    // doesn't render the image object useless. 
+    // Construct the image object. Seperating image construction from the
+    // the read operation ensures that a failure to read the image file
+    // doesn't render the image object useless.
     Image image;
     try {
       // Read a file into image object
@@ -30,7 +30,7 @@ int loop_pixels(char *av[], int iter, int mode)
       // Get image total rows and columns
       ssize_t cols = image.baseColumns();
       ssize_t rows = image.baseRows();
-      //If this is not done, then image pixels will not be modified. 
+      //If this is not done, then image pixels will not be modified.
       image.modifyImage();
       // Allocate pixel view
       Pixels view(image);
@@ -48,6 +48,7 @@ int loop_pixels(char *av[], int iter, int mode)
           // Update neuron map.
           // Randomly select a pixel.
           ColorRGB rc(image.pixelColor(rand() % cols, rand() % rows));
+
           // Convert the pixel to Point3D.
           Geometry::Point3D rand_pt(rc.red(), rc.green(), rc.blue());
 
@@ -55,6 +56,7 @@ int loop_pixels(char *av[], int iter, int mode)
         }
 
       std::vector<std::vector<Geometry::Point3D>> result = ns.getNeurons();
+
       // Build the image from Neurons.
       for (ssize_t row = 0; row < rows; ++row)
         for (ssize_t column = 0; column < cols; ++column)
@@ -64,7 +66,8 @@ int loop_pixels(char *av[], int iter, int mode)
                        result[row][column].getZ());
           *pixels++ = col;
         }
-      // Set outuput name.
+
+      // Set output name.
       std::string fn(image.baseFilename());
       unsigned fd = fn.find_last_of(".");
       std::string out(fn.substr(0, fd));
@@ -74,11 +77,11 @@ int loop_pixels(char *av[], int iter, int mode)
 
       // Write image.
       image.write(out);
-    } 
+    }
     catch( Exception &error_)
-    { 
-      std::cout << "Caught exception: " << error_.what() << std::endl; 
-      return 1; 
+    {
+      std::cout << "Caught exception: " << error_.what() << std::endl;
+      return 1;
     }
   return 0;
 }
@@ -119,7 +122,7 @@ int main(int argc, char* argv[])
 
   if (ca == 2)
   {
-      std::cout 
+      std::cout
         << "usage: ./prpa --mode=<seq|par> --iter=<number> <image's path>"
         << std::endl;
     return 2;

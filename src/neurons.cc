@@ -69,12 +69,10 @@ namespace Geometry
         return Point3D(x, y, 0);
     }
 
-    Point3D Neurons::change_color(Point3D point, Point3D ref, double dist_radius)
+    Point3D Neurons::change_color(Point3D point,
+                                  Point3D ref,
+                                  double dist_radius)
     {
-        double r;
-        double g;
-        double b;
-
         if (dist_radius == 0)
             dist_radius = 1;
 
@@ -85,6 +83,10 @@ namespace Geometry
         r = point.getX() + r_offset;
         g = point.getY() + g_offset;
         b = point.getZ() + b_offset;
+
+        double r = point.getX() + r_offset;
+        double g = point.getY() + g_offset;
+        double b = point.getZ() + b_offset;
 
         return Point3D(r, g, b);
     }
