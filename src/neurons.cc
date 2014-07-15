@@ -51,7 +51,7 @@ namespace Geometry
 
     Point3D Neurons::nearest(Point3D p)
     {
-        double min_dist = 1000000;
+        double min_dist = INT_MAX;
         int x = 0;
         int y = 0;
 

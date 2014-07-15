@@ -4,6 +4,7 @@
 # include "Point3D.hh"
 # include <vector>
 # include <stdlib.h>
+# include <climits>
 # include "parallel_cube.hh"
 # include "parallel_update.hh"
 
