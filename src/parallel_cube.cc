@@ -13,15 +13,16 @@ namespace Parallel
     {
         for (size_t i = r.begin(); i < r.end(); ++i)
         {
-            std::vector<Geometry::Point3D> row;
+            std::vector<Geometry::Point3D> col;
             for (int z = 0; z < height_; ++z)
             {
                 double r = (double) rand() / RAND_MAX;
                 double g = (double) rand() / RAND_MAX;
                 double b = (double) rand() / RAND_MAX;
-                row.push_back(Geometry::Point3D(r, g, b));
+                col.push_back(Geometry::Point3D(r, g, b));
             }
-            neuron_matrix_->push_back(row);
+
+            (*neuron_matrix_)[i] = col;
         }
     }
 }

@@ -55,7 +55,7 @@ int loop_pixels(char *av[], int iter, int mode)
           ns.update(rand_pt, ns.nearest(rand_pt), i);
         }
 
-      std::vector<std::vector<Geometry::Point3D>> result = ns.getNeurons();
+      std::vector<std::vector<Geometry::Point3D>> result = *(ns.getNeurons());
 
       // Build the image from Neurons.
       for (ssize_t row = 0; row < rows; ++row)

@@ -6,7 +6,7 @@
 
 namespace Geometry
 {
-    Neurons::Neurons(std::vector<std::vector<Point3D>> m)
+    Neurons::Neurons(std::vector<std::vector<Point3D>>* m)
     {
         neuron_matrix_ = m;
     }
@@ -15,25 +15,28 @@ namespace Geometry
     {
         width_ = width;
         height_ = height;
+
+        neuron_matrix_ = new std::vector<std::vector<Point3D>>(width);
+
         if (!parallel)
         {
             for (int i = 0; i < width; ++i)
             {
-                std::vector<Point3D> row;
+                std::vector<Point3D> col;
                 for (int z = 0; z < height; ++z)
                 {
                     double r = (double) rand() / RAND_MAX;
                     double g = (double) rand() / RAND_MAX;
                     double b = (double) rand() / RAND_MAX;
-                    row.push_back(Point3D(r, g, b));
+                    col.push_back(Point3D(r, g, b));
                 }
-                neuron_matrix_.push_back(row);
+                (*neuron_matrix_)[i] = col;
             }
         }
         else
         {
                 tbb::parallel_for(tbb::blocked_range<size_t>(0, width),
-                               Parallel::Parallel_cube(&neuron_matrix_, height));
+                               Parallel::Parallel_cube(neuron_matrix_, height));
         }
     }
 
@@ -41,7 +44,7 @@ namespace Geometry
     {
     }
 
-    std::vector<std::vector<Point3D>> Neurons::getNeurons() const
+    std::vector<std::vector<Point3D>>* Neurons::getNeurons() const
     {
         return neuron_matrix_;
     }
@@ -57,7 +60,7 @@ namespace Geometry
         {
             for (int z = 0; z < height_; ++z)
             {
-                double dist_tmp = p.dist(this->neuron_matrix_[i][z]);
+              double dist_tmp = p.dist((*(this->neuron_matrix_))[i][z]);
                 if (dist_tmp < min_dist)
                 {
                     min_dist = dist_tmp;
@@ -100,8 +103,8 @@ namespace Geometry
                 double dist_tmp = bmu.dist(Point3D(i, z, 0));
                 if (dist_tmp < radius)
                 {
-                    this->neuron_matrix_[i][z] =
-                        change_color(neuron_matrix_[i][z], ref, dist_tmp);
+                  (*(this->neuron_matrix_))[i][z] =
+                    change_color((*neuron_matrix_)[i][z], ref, dist_tmp);
                 }
             }
         }
