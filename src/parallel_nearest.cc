@@ -7,7 +7,16 @@ namespace Parallel
                                      const std::vector<std::vector<Geometry::Point3D>>& neurons)
     : p_(p),
       height_(height),
-      neurons_(neurons)
+      neurons_(neurons),
+      min_dist_(INT_MAX)
+  {
+  }
+
+  Parallel_nearest::Parallel_nearest(Parallel_nearest& x, tbb::split)
+    : p_(x.p_),
+      height_(x.height_),
+      neurons_(x.neurons_),
+      min_dist_(INT_MAX)
   {
   }
 
@@ -27,6 +36,7 @@ namespace Parallel
                 ynearest_ = z;
               }
           }
+        min_dist_ = std::min(min_dist_, min_dist);
       }
   }
 
@@ -39,6 +49,11 @@ namespace Parallel
   void
   Parallel_nearest::join(const Parallel_nearest& other)
   {
-    min_dist_ = std::min(min_dist_, other.min_dist_);
+    if (other.min_dist_ < min_dist_)
+      {
+        xnearest_ = other.xnearest_;
+        ynearest_ = other.ynearest_;
+        min_dist_ = other.min_dist_;
+      }
   }
 }

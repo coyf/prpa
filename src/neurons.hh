@@ -7,6 +7,7 @@
 # include <climits>
 # include "parallel_cube.hh"
 # include "parallel_update.hh"
+# include "parallel_nearest.hh"
 
 namespace Geometry
 {
@@ -17,7 +18,7 @@ namespace Geometry
             Neurons(int width, int height, bool parallel);
             ~Neurons();
 
-            Point3D nearest(Point3D p);
+            Point3D nearest(Point3D p, bool parallel_enabled);
             void update(Point3D ref, Point3D pt, int iter, bool parallel);
             Point3D change_color(Point3D point, Point3D ref, double coef) const;
             std::vector<std::vector<Point3D>>* getNeurons() const;

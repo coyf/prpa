@@ -15,8 +15,9 @@ namespace Parallel
   public:
     Parallel_nearest(Geometry::Point3D p,
                      int height,
-                     const std::vector<std::vector<Geometry::Point3D>>&
+                     const std::vector<std::vector<Geometry::Point3D>>& 
                      neurons);
+    Parallel_nearest(Parallel_nearest& x, tbb::split);
     void operator()(const tbb::blocked_range<size_t>& r);
     Geometry::Point3D getNearest() const;
     void join(const Parallel_nearest& other);

@@ -3,6 +3,7 @@
 #include "neurons.hh"
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>
+#include <tbb/parallel_reduce.h>
 
 namespace Geometry
 {
@@ -49,35 +50,44 @@ namespace Geometry
         return neuron_matrix_;
     }
 
-    Point3D Neurons::nearest(Point3D p)
+  Point3D Neurons::nearest(Point3D p, bool parallel_enabled)
     {
-        double min_dist = INT_MAX;
-        int x = 0;
-        int y = 0;
-
-        /* Loop to find the nearest neuron of the given point */
-        for (int i = 0; i < width_; ++i)
+      if (parallel_enabled)
         {
-            for (int z = 0; z < height_; ++z)
+          Parallel::Parallel_nearest nearest(p, height_, *neuron_matrix_);
+          tbb::parallel_reduce(tbb::blocked_range<size_t>(0, width_), nearest);
+          return nearest.getNearest();
+        }
+      else
+        {
+          double min_dist = INT_MAX;
+          int x = 0;
+          int y = 0;
+
+          /* Loop to find the nearest neuron of the given point */
+          for (int i = 0; i < width_; ++i)
             {
-                double dist_tmp = p.dist((*(this->neuron_matrix_))[i][z]);
-                if (dist_tmp < min_dist)
+              for (int z = 0; z < height_; ++z)
                 {
-                    min_dist = dist_tmp;
-                    x = i;
-                    y = z;
+                  double dist_tmp = p.dist((*(this->neuron_matrix_))[i][z]);
+                  if (dist_tmp < min_dist)
+                    {
+                      min_dist = dist_tmp;
+                      x = i;
+                      y = z;
+                    }
                 }
             }
+          return Point3D(x, y, 0);
         }
-        return Point3D(x, y, 0);
     }
 
-    Point3D Neurons::change_color(Point3D point,
-            Point3D ref,
-            double dist_radius) const
-    {
-        if (dist_radius == 0)
-            dist_radius = 1;
+  Point3D Neurons::change_color(Point3D point,
+                                Point3D ref,
+                                double dist_radius) const
+  {
+    if (dist_radius == 0)
+      dist_radius = 1;
 
         double r_offset = (ref.getX() - point.getX()) / dist_radius;
         double g_offset = (ref.getY() - point.getY()) / dist_radius;
