@@ -1,0 +1,7 @@
+POGRAMMATION PARALLELE
+
+Points de parallelisation :
+
+- Initialixation de la matrice de neurones avec des valeurs aleatoires.
+- Calcul de neurone "Le plus proche" (distance euclidienne).
+- Ecriture de l'image en sortie.

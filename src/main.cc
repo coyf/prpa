@@ -3,7 +3,11 @@
 #include "timer.hh"
 #include "Point3D.hh"
 #include "neurons.hh"
+#include "parallel_output_image.hh"
 #include <Magick++.h>
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
+
 
 using namespace Magick;
 
@@ -15,7 +19,7 @@ std::string get_file_ext(std::string filename)
   return ext;
 }
 
-int loop_pixels(char *av[], int iter)
+int loop_pixels(char *av[], int iter, int mode)
 {
     InitializeMagick(*av);
 
@@ -42,7 +46,7 @@ int loop_pixels(char *av[], int iter)
       std::cout << "radius: " << radius << std::endl;
 
       // Init neuron's map.
-      Geometry::Neurons ns(cols, rows);
+      Geometry::Neurons ns(cols, rows, mode == 1);
 
       srand(time(0));
       for (int i = 0; i < iter; ++i)
@@ -57,18 +61,28 @@ int loop_pixels(char *av[], int iter)
           ns.update(rand_pt, ns.nearest(rand_pt), radius);
         }
 
-      std::vector<std::vector<Geometry::Point3D>> result = ns.getNeurons();
+      std::vector<std::vector<Geometry::Point3D>> neurons = *(ns.getNeurons());
 
       // Build the image from Neurons.
-      for (ssize_t row = 0; row < rows; ++row)
-        for (ssize_t column = 0; column < cols; ++column)
+      if (mode == 0)
         {
-          ColorRGB col(result[row][column].getX(),
-                       result[row][column].getY(),
-                       result[row][column].getZ());
-          *pixels++ = col;
+          // If it is sequentiql mode on
+          for (ssize_t row = 0; row < rows; ++row)
+            for (ssize_t column = 0; column < cols; ++column)
+              {
+                ColorRGB col(neurons[row][column].getX(),
+                             neurons[row][column].getY(),
+                             neurons[row][column].getZ());
+                *pixels++ = col;
+              }
         }
-
+      else
+        {
+          // Parallel mode
+          tbb::parallel_for(tbb::blocked_range<size_t>(0, rows),
+                            Parallel::Parallel_output_image(neurons, pixels,
+                                                            cols));
+        }
       // Set output name.
       std::string fn(image.baseFilename());
       unsigned fd = fn.find_last_of(".");
@@ -101,11 +115,12 @@ int check_args(int ac, char* av[])
   if (mode.size() == 10
       && mode.compare(0, 7, "--mode=") == 0)
   {
-    if (mode.compare(7, 3, "par") == 0
-        || mode.compare(7, 3, "seq") == 0)
+    if (mode.compare(7, 3, "par") == 0)
+      return 1;
+    else if (mode.compare(7, 3, "seq") == 0)
       return 0;
     else
-      return 1;
+      return 2;
   }
   else if (iter.size() == 10
            && iter.compare(0, 7, "--iter=") == 0)
@@ -121,14 +136,11 @@ int main(int argc, char* argv[])
   int ca = check_args(argc, argv);
   int res = 0;
 
-  if (ca != 0)
+  if (ca == 2)
   {
-    if (ca == 2)
       std::cout
         << "usage: ./prpa --mode=<seq|par> --iter=<number> <image's path>"
         << std::endl;
-    else if (ca == 1)
-      std::cout << "unknow mode" << std::endl;
     return 2;
   }
 
@@ -140,7 +152,7 @@ int main(int argc, char* argv[])
   std::cout << "iter val: " << iter_val << std::endl;
 
   { timer t(ellapsed_time);
-    res = loop_pixels(argv, iter_val);
+    res = loop_pixels(argv, iter_val, ca);
   }
 
   std::cout << "Ellapsed time: " << ellapsed_time << std::endl;
