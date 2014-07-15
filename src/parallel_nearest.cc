@@ -25,18 +25,16 @@ namespace Parallel
   {
     for (size_t i = r.begin(); i < r.end(); ++i)
       {
-        double min_dist = INT_MAX;
         for (int z = 0; z < height_; ++z)
           {
             double dist_tmp = p_.dist(neurons_[i][z]);
-            if (dist_tmp < min_dist)
+            if (dist_tmp < min_dist_)
               {
-                min_dist = dist_tmp;
+                min_dist_ = dist_tmp;
                 xnearest_ = i;
                 ynearest_ = z;
               }
           }
-        min_dist_ = std::min(min_dist_, min_dist);
       }
   }
 
