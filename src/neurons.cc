@@ -1,6 +1,8 @@
 #include <cmath>
 #include <iostream>
 #include "neurons.hh"
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
 
 namespace Geometry
 {
@@ -9,21 +11,29 @@ namespace Geometry
         neuron_matrix_ = m;
     }
 
-    Neurons::Neurons(int width, int height)
+    Neurons::Neurons(int width, int height, bool parallel)
     {
         width_ = width;
         height_ = height;
-        for (int i = 0; i < width; ++i)
+        if (!parallel)
         {
-            std::vector<Point3D> row;
-            for (int z = 0; z < height; ++z)
+            for (int i = 0; i < width; ++i)
             {
-                double r = (double) rand() / RAND_MAX;
-                double g = (double) rand() / RAND_MAX;
-                double b = (double) rand() / RAND_MAX;
-                row.push_back(Point3D(r, g, b));
+                std::vector<Point3D> row;
+                for (int z = 0; z < height; ++z)
+                {
+                    double r = (double) rand() / RAND_MAX;
+                    double g = (double) rand() / RAND_MAX;
+                    double b = (double) rand() / RAND_MAX;
+                    row.push_back(Point3D(r, g, b));
+                }
+                neuron_matrix_.push_back(row);
             }
-            neuron_matrix_.push_back(row);
+        }
+        else
+        {
+                tbb::parallel_for(tbb::blocked_range<size_t>(0, width),
+                               Parallel::Parallel_cube(&neuron_matrix_, height));
         }
     }
 
@@ -71,16 +81,12 @@ namespace Geometry
         double r_offset = (ref.getX() - point.getX()) / dist_radius;
         double g_offset = (ref.getY() - point.getY()) / dist_radius;
         double b_offset = (ref.getZ() - point.getZ()) / dist_radius;
-        
+
         r = point.getX() + r_offset;
         g = point.getY() + g_offset;
         b = point.getZ() + b_offset;
-/*
-        std::cout << "ref " << ref.getX() << " " << ref.getY() << " " << ref.getZ() << std::endl;
-        std::cout << "point " << point.getX() << " " << point.getY() << " " 
-            << point.getZ() << std::endl;
-        std::cout << "r " << r << " g " << g << " b " << b << std::endl << std::endl;
-  */      return Point3D(r, g, b);
+
+        return Point3D(r, g, b);
     }
 
     void Neurons::update(Point3D ref, Point3D bmu, int iter)
@@ -97,7 +103,7 @@ namespace Geometry
                 if (dist_tmp < radius)
                 {
                     this->neuron_matrix_[i][z] =
-                                     change_color(neuron_matrix_[i][z], ref, dist_tmp);
+                        change_color(neuron_matrix_[i][z], ref, dist_tmp);
                 }
             }
         }

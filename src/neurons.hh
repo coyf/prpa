@@ -4,6 +4,7 @@
 # include "Point3D.hh"
 # include <vector>
 # include <stdlib.h>
+# include "parallel_cube.hh"
 
 namespace Geometry
 {
@@ -11,7 +12,7 @@ namespace Geometry
     {
         public:
             Neurons(std::vector<std::vector<Point3D>> m);
-            Neurons(int width, int height);
+            Neurons(int width, int height, bool parallel);
             ~Neurons();
 
             Point3D nearest(Point3D p);

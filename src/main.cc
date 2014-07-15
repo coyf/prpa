@@ -15,7 +15,7 @@ std::string get_file_ext(std::string filename)
   return ext;
 }
 
-int loop_pixels(char *av[], int iter)
+int loop_pixels(char *av[], int iter, int mode)
 {
     InitializeMagick(*av);
 
@@ -40,7 +40,7 @@ int loop_pixels(char *av[], int iter)
       // Send random pixel from the pixels tab.
 
       // Init neuron's map.
-      Geometry::Neurons ns(cols, rows);
+      Geometry::Neurons ns(cols, rows, mode == 1);
 
       srand(time(0));
       for (int i = 0; i < iter; ++i)
@@ -96,11 +96,12 @@ int check_args(int ac, char* av[])
   if (mode.size() == 10
       && mode.compare(0, 7, "--mode=") == 0)
   {
-    if (mode.compare(7, 3, "par") == 0
-        || mode.compare(7, 3, "seq") == 0)
+    if (mode.compare(7, 3, "par") == 0)
+      return 1;
+    else if (mode.compare(7, 3, "seq") == 0)
       return 0;
     else
-      return 1;
+      return 2;
   }
   else if (iter.size() == 10
            && iter.compare(0, 7, "--iter=") == 0)
@@ -116,14 +117,11 @@ int main(int argc, char* argv[])
   int ca = check_args(argc, argv);
   int res = 0;
 
-  if (ca != 0)
+  if (ca == 2)
   {
-    if (ca == 2)
       std::cout 
         << "usage: ./prpa --mode=<seq|par> --iter=<number> <image's path>"
         << std::endl;
-    else if (ca == 1)
-      std::cout << "unknow mode" << std::endl;
     return 2;
   }
 
@@ -135,7 +133,7 @@ int main(int argc, char* argv[])
   std::cout << "iter val: " << iter_val << std::endl;
 
   { timer t(ellapsed_time);
-    res = loop_pixels(argv, iter_val);
+    res = loop_pixels(argv, iter_val, ca);
   }
 
   std::cout << "Ellapsed time: " << ellapsed_time << std::endl;

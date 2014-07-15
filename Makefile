@@ -13,7 +13,8 @@ SDIR=src
 # Source files
 BSRC=main.cc \
 	Point3D.cc \
-	neurons.cc
+	neurons.cc \
+	parallel_cube.cc
 SRC=$(addprefix ${SDIR}/, $(BSRC))
 
 DEP=$(SRC:.cc=.d)
