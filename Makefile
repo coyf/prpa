@@ -14,7 +14,8 @@ SDIR=src
 BSRC=main.cc \
 	Point3D.cc \
 	neurons.cc \
-	parallel_cube.cc
+	parallel_cube.cc \
+	parallel_output_image.cc
 SRC=$(addprefix ${SDIR}/, $(BSRC))
 
 DEP=$(SRC:.cc=.d)

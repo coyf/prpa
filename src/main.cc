@@ -3,7 +3,11 @@
 #include "timer.hh"
 #include "Point3D.hh"
 #include "neurons.hh"
+#include "parallel_output_image.hh"
 #include <Magick++.h>
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
+
 
 using namespace Magick;
 
@@ -55,18 +59,28 @@ int loop_pixels(char *av[], int iter, int mode)
           ns.update(rand_pt, ns.nearest(rand_pt), i);
         }
 
-      std::vector<std::vector<Geometry::Point3D>> result = *(ns.getNeurons());
+      std::vector<std::vector<Geometry::Point3D>> neurons = *(ns.getNeurons());
 
       // Build the image from Neurons.
-      for (ssize_t row = 0; row < rows; ++row)
-        for (ssize_t column = 0; column < cols; ++column)
+      if (mode == 0)
         {
-          ColorRGB col(result[row][column].getX(),
-                       result[row][column].getY(),
-                       result[row][column].getZ());
-          *pixels++ = col;
+          // If it is sequentiql mode on
+          for (ssize_t row = 0; row < rows; ++row)
+            for (ssize_t column = 0; column < cols; ++column)
+              {
+                ColorRGB col(neurons[row][column].getX(),
+                             neurons[row][column].getY(),
+                             neurons[row][column].getZ());
+                *pixels++ = col;
+              }
         }
-
+      else
+        {
+          // Parallel mode
+          tbb::parallel_for(tbb::blocked_range<size_t>(0, rows),
+                            Parallel::Parallel_output_image(neurons, pixels,
+                                                            cols));
+        }
       // Set output name.
       std::string fn(image.baseFilename());
       unsigned fd = fn.find_last_of(".");
