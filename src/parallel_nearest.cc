@@ -23,9 +23,9 @@ namespace Parallel
   void
   Parallel_nearest::operator()(const tbb::blocked_range<size_t>& r)
   {
-    double min_dist = INT_MAX;
     for (size_t i = r.begin(); i < r.end(); ++i)
       {
+        double min_dist = INT_MAX;
         for (int z = 0; z < height_; ++z)
           {
             double dist_tmp = p_.dist(neurons_[i][z]);

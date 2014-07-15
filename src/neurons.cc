@@ -121,6 +121,7 @@ namespace Geometry
                 }
             }
         }
+        else
         {
             tbb::parallel_for(tbb::blocked_range<size_t>(0, width_),
                     Parallel::Parallel_update(neuron_matrix_,
