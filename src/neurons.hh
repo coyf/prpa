@@ -23,7 +23,7 @@ namespace Geometry
             int width_;
             int height_;
 
-      double getRadius(double i);
+      double getRadius(int i);
     };
 }
 

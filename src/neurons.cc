@@ -99,9 +99,9 @@ namespace Geometry
 
     // Get the radius needed to determine the neighbourhood of a neuron
     // 'i' represents the number of the current iteration 1,2,3 ...
-    double Neurons::getRadius(double i)
+    double Neurons::getRadius(int i)
     {
-        return 10;//sqrt(i*10);
+        return i;
     }
 
 }
