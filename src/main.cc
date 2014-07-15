@@ -68,9 +68,9 @@ int loop_pixels(char *av[], int iter, int mode)
           for (ssize_t row = 0; row < rows; ++row)
             for (ssize_t column = 0; column < cols; ++column)
               {
-                ColorRGB col(neurons[row][column].getX(),
-                             neurons[row][column].getY(),
-                             neurons[row][column].getZ());
+                ColorRGB col(neurons[column][row].getX(),
+                             neurons[column][row].getY(),
+                             neurons[column][row].getZ());
                 *pixels++ = col;
               }
         }
