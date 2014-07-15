@@ -4,7 +4,7 @@ namespace Parallel
 {
   Parallel_nearest::Parallel_nearest(Geometry::Point3D p,
                                      int height,
-                                     const std::vector<std::vector<Geometry::Point3D>>& neurons)
+                                     std::vector<std::vector<Geometry::Point3D>>& neurons)
     : p_(p),
       height_(height),
       neurons_(neurons),
