@@ -87,7 +87,9 @@ int loop_pixels(char *av[], int iter, int mode)
       std::string fn(image.baseFilename());
       unsigned fd = fn.find_last_of(".");
       std::string out(fn.substr(0, fd));
-      out.append("-output");
+      out.append("-output-");
+      std::string iter(av[2]);
+      out.append(iter.substr(7, iter.length() - 7));
       out.append(get_file_ext(fn));
       std::cout << "output: " << out << std::endl;
 
