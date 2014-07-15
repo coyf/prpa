@@ -35,8 +35,8 @@ namespace Geometry
         }
         else
         {
-                tbb::parallel_for(tbb::blocked_range<size_t>(0, width),
-                               Parallel::Parallel_cube(neuron_matrix_, height));
+            tbb::parallel_for(tbb::blocked_range<size_t>(0, width),
+                    Parallel::Parallel_cube(neuron_matrix_, height));
         }
     }
 
@@ -60,7 +60,7 @@ namespace Geometry
         {
             for (int z = 0; z < height_; ++z)
             {
-              double dist_tmp = p.dist((*(this->neuron_matrix_))[i][z]);
+                double dist_tmp = p.dist((*(this->neuron_matrix_))[i][z]);
                 if (dist_tmp < min_dist)
                 {
                     min_dist = dist_tmp;
@@ -73,8 +73,8 @@ namespace Geometry
     }
 
     Point3D Neurons::change_color(Point3D point,
-                                  Point3D ref,
-                                  double dist_radius)
+            Point3D ref,
+            double dist_radius) const
     {
         if (dist_radius == 0)
             dist_radius = 1;
@@ -90,23 +90,31 @@ namespace Geometry
         return Point3D(r, g, b);
     }
 
-    void Neurons::update(Point3D ref, Point3D bmu, int iter)
+    void Neurons::update(Point3D ref, Point3D bmu, int iter, bool parallel)
     {
         double radius = getRadius((double) iter);
 
-        for (int i = 0; i < width_; ++i)
+        if (!parallel)
         {
-            for (int z = 0; z < height_; ++z)
+            for (int i = 0; i < width_; ++i)
             {
-                // Checks if point of the matrix is in the neighbourhood
-                // of the neuron
-                double dist_tmp = bmu.dist(Point3D(i, z, 0));
-                if (dist_tmp < radius)
+                for (int z = 0; z < height_; ++z)
                 {
-                  (*(this->neuron_matrix_))[i][z] =
-                    change_color((*neuron_matrix_)[i][z], ref, dist_tmp);
+                    // Checks if point of the matrix is in the neighbourhood
+                    // of the neuron
+                    double dist_tmp = bmu.dist(Point3D(i, z, 0));
+                    if (dist_tmp < radius)
+                    {
+                        (*(this->neuron_matrix_))[i][z] =
+                            change_color((*neuron_matrix_)[i][z], ref, dist_tmp);
+                    }
                 }
             }
+        }
+        {
+            tbb::parallel_for(tbb::blocked_range<size_t>(0, width_),
+                    Parallel::Parallel_update(neuron_matrix_,
+                        height_, radius, bmu, ref));
         }
     }
 

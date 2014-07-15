@@ -47,7 +47,7 @@ namespace Geometry
   }
 
   // Dist
-  double Point3D::dist(Point3D pt)
+  double Point3D::dist(Point3D pt) const
   {
     double dx = pt.x_ - x_;
     double dy = pt.y_ - y_;

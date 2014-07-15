@@ -19,90 +19,11 @@ namespace Parallel
       {
         for (ssize_t column = 0; column < cols_; ++column)
           {
-            ColorRGB col(neurons_[i][column].getX(),
-                         neurons_[i][column].getY(),
-                         neurons_[i][column].getZ());
+            ColorRGB col(neurons_[column][i].getX(),
+                         neurons_[column][i].getY(),
+                         neurons_[column][i].getZ());
             *(pixels_ + (cols_ * i + column)) = col;
           }
       }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -17,7 +17,7 @@ namespace Geometry
     void setY(double y);
     void setZ(double z);
 
-    double dist(Point3D pt);
+    double dist(Point3D pt) const;
   private:
     double x_;
     double y_;

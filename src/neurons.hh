@@ -5,6 +5,7 @@
 # include <vector>
 # include <stdlib.h>
 # include "parallel_cube.hh"
+# include "parallel_update.hh"
 
 namespace Geometry
 {
@@ -16,8 +17,8 @@ namespace Geometry
             ~Neurons();
 
             Point3D nearest(Point3D p);
-            void update(Point3D ref, Point3D pt, int iter);
-            Point3D change_color(Point3D point, Point3D ref, double coef);
+            void update(Point3D ref, Point3D pt, int iter, bool parallel);
+            Point3D change_color(Point3D point, Point3D ref, double coef) const;
             std::vector<std::vector<Point3D>>* getNeurons() const;
         private:
             std::vector<std::vector<Point3D>>* neuron_matrix_;
