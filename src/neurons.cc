@@ -80,10 +80,6 @@ namespace Geometry
         double g_offset = (ref.getY() - point.getY()) / dist_radius;
         double b_offset = (ref.getZ() - point.getZ()) / dist_radius;
 
-        r = point.getX() + r_offset;
-        g = point.getY() + g_offset;
-        b = point.getZ() + b_offset;
-
         double r = point.getX() + r_offset;
         double g = point.getY() + g_offset;
         double b = point.getZ() + b_offset;
