@@ -41,7 +41,9 @@ int loop_pixels(char *av[], int iter, int mode)
 
       // Get all of the image pixels
       PixelPacket *pixels = view.get(0, 0, cols, rows);
-      // Send random pixel from the pixels tab.
+
+      int radius = (cols + rows) * 0.025;
+      std::cout << "radius: " << radius << std::endl;
 
       // Init neuron's map.
       Geometry::Neurons ns(cols, rows, mode == 1);
@@ -56,7 +58,7 @@ int loop_pixels(char *av[], int iter, int mode)
           // Convert the pixel to Point3D.
           Geometry::Point3D rand_pt(rc.red(), rc.green(), rc.blue());
 
-          ns.update(rand_pt, ns.nearest(rand_pt), i);
+          ns.update(rand_pt, ns.nearest(rand_pt), radius);
         }
 
       std::vector<std::vector<Geometry::Point3D>> neurons = *(ns.getNeurons());
