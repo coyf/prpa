@@ -1,4 +1,29 @@
 body{
   position: relative;
   margin-top: 15%;
+  color:
+  background-color:black;
+  background-image:url("002.jpg");
+  background-position:cover;
 }
+
+.thumbnail {
+  background-color: rgb(0, 0, 0);
+  border-color: black;
+}
+
+.thumbnail .caption {
+  color: rgb(255, 255, 255);
+}
+
+.panel {
+  border-color: black;
+  background-color: black;
+}
+
+.panel-default > .panel-heading {
+  color: whitesmoke;
+  background-color: #3D003D;
+  border-color: whitesmoke;
+}
+
