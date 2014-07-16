@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="dist/css/bootstrap.css">
+    <script type="text/javascript" src="dist/js/jquery.min.js"></script>
+    <script src="dist/js/bootstrap.min.js"></script>
+    <link href="dist/css/defense.css" rel="stylesheet" type="text/css"/>
+    <title>Projet prpa</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Examples of outputs</h4>
+        </div>
+      <div class="panel panel-body">
+      <!-- 202x202 image -->
+      <div class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+          <div>
+            <img src="images/test.png"
+              width="220" height="200" />
+          </div>
+          <div class="caption">
+            <h4>202 x 202 </h4>
+            <p>
+            Sequential: 0.10 s
+            <br></br>
+            Using TBB: 0.40 s
+            </p>
+          </div>
+        </div>
+      </div><!-- /thumbnail -->
+
+      <!-- ie image 300x300 -->
+      <div class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+          <div>
+            <img src="images/ie.png" width="220" height="200" />
+          </div>
+          <div class="caption">
+            <h4>300 x 300</h4>
+            <p>
+            Sequential: 0.12 s
+            <br></br>
+            Using TBB: 0.36 s
+            </p>
+          </div>
+        </div>
+      </div><!-- /thumbnail -->
+
+      <!-- random pixels large -->
+      <div class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+          <div>
+            <img src="images/randpix-large.jpg" 
+            width="220" height="200" />
+          </div>
+          <div class="caption">
+            <h4>1147 x 864</h4>
+            <p>
+            Sequential: 0.12 s
+            <br></br>
+            Using TBB: 0.36 s
+            </p>
+          </div>
+        </div>
+      </div><!-- /thumbnail -->
+
+      <!-- blue wallpaper -->
+      <div class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+          <div>
+            <img src="images/blue.jpg" width="220" height="200" />
+          </div>
+          <div class="caption">
+            <h4>1554 x 1068</h4>
+            <p>
+            Sequential: 0.12 s
+            <br></br>
+            Using TBB: 0.36 s
+            </p>
+          </div>
+        </div>
+      </div><!-- /thumbnail -->
+      </div><!-- /panel-body -->
+      </div><!-- /panel -->
+    </div> <!-- /container -->
+  </body>
+</html>
